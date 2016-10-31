@@ -37,6 +37,10 @@ class FacebookLogin extends React.Component {
     version: '2.3',
     language: 'en_US',
   };
+  constructor(props) {
+    super(props);
+    this.state = {inited: false};
+  }
 
   componentDidMount() {
     const { appId, xfbml, cookie, version, autoLoad, language } = this.props;
@@ -56,6 +60,8 @@ class FacebookLogin extends React.Component {
         xfbml,
         cookie,
       });
+      
+      this.setState({inited: true});
 
       if (autoLoad || window.location.search.includes('facebookdirect')) {
         window.FB.getLoginStatus(this.checkLoginAfterRefresh);
@@ -134,8 +140,9 @@ class FacebookLogin extends React.Component {
   render() {
     const { cssClass, size, icon, textButton } = this.props;
     const isIconString = typeof icon === 'string';
+    const { inited } = this.state;
 
-    return (
+    return ({ inited && 
       <span>
         {isIconString && (
           <link
@@ -155,7 +162,7 @@ class FacebookLogin extends React.Component {
         </button>
         <style dangerouslySetInnerHTML={{ __html: styles }}></style>
       </span>
-    );
+      });
   }
 }
 
