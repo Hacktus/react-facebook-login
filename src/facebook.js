@@ -39,7 +39,7 @@ class FacebookLogin extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {inited: false};
+    this.state = { inited: false };
   }
 
   componentDidMount() {
@@ -60,8 +60,8 @@ class FacebookLogin extends React.Component {
         xfbml,
         cookie,
       });
-      
-      this.setState({inited: true});
+
+      this.setState({ inited: true });
 
       if (autoLoad || window.location.search.includes('facebookdirect')) {
         window.FB.getLoginStatus(this.checkLoginAfterRefresh);
@@ -142,7 +142,11 @@ class FacebookLogin extends React.Component {
     const isIconString = typeof icon === 'string';
     const { inited } = this.state;
 
-    return ({ inited && 
+    if (!inited) {
+      return null;
+    }
+
+    return (
       <span>
         {isIconString && (
           <link
@@ -162,7 +166,7 @@ class FacebookLogin extends React.Component {
         </button>
         <style dangerouslySetInnerHTML={{ __html: styles }}></style>
       </span>
-      });
+      );
   }
 }
 
